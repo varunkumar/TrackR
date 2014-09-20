@@ -632,5 +632,5 @@ exports.callForward = function(req, res) {
   console.log("Caller Number: " + req.query.callernumber);
   console.log("Extension: " + req.query.extension);
   res.writeHead(200, {'Content-Type': 'application/xml'});
-  res.end('\<response><status>success/failure</status><mapped_number>919449052884</mapped_number></response>');
+  res.end('\<response><status>success</status><mapped_number>919449052884</mapped_number></response>');
 };
