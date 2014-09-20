@@ -60,7 +60,15 @@ var week = day * 7;
  * CSRF whitelist.
  */
 
-var csrfExclude = ['/url1', '/url2'];
+var csrfExclude = ['https://twitter.com', '/url2'];
+
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'https://twitter.com');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+};
 
 /**
  * Express configuration.
@@ -80,6 +88,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
+app.use(allowCrossDomain);
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -92,11 +101,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   // CSRF protection.
   if (_.contains(csrfExclude, req.path)) return next();
   csrf(req, res, next);
-});
+});*/
 app.use(function(req, res, next) {
   // Make user object available in templates.
   res.locals.user = req.user;
@@ -143,6 +152,7 @@ app.post('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized
 app.get('/api/stoptracking/:tweetId', passportConf.isAuthenticated, apiController.stopTracking);
 
 app.get('/api/virtualnumber', apiController.callForward);
+app.post('/api/twitter/search', apiController.searchEvent);
 /*app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);

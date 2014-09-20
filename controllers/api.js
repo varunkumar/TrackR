@@ -311,6 +311,20 @@ exports.callForward = function(req, res) {
   });
 };
 
+exports.searchEvent = function(req, res, next) {
+  var tweetId = req.body.tweetId;
+  var tweet = req.body.tweet;
+
+  Event.findOne({tweetId: tweetId}, function(err, e) {
+    if (err || e == null) {
+      // Tweet has not been tracked. Match it with other tracked tweets
+    } else {
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(e));
+    }
+  });
+};
+
 /**
  * POST /api/twitter
  * @param tweet

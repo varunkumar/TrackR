@@ -70,7 +70,7 @@ block content
       | Your tweets being tracked
     for event in events
       a(href='#{event.url}', target='_blank') #{event.url}
-      &nbsp;&nbsp;
+      | &nbsp;&nbsp;
       a(href='/api/stoptracking/#{event.tweetId}') Close
       br
       | #{event.tweet}
