@@ -1,6 +1,11 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
+var autoIncrement = require('mongoose-auto-increment');
+
+var connection = mongoose.createConnection("mongodb://localhost/test");
+
+autoIncrement.initialize(connection);
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
@@ -22,6 +27,25 @@ var userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
+
+var eventSchema = new mongoose.Schema({
+  tweetId: {type: String, unique: true},
+  url: String,
+  type: String,
+  extension: {type: Number},
+  phone: {type: Number},
+  tweet: {type: String},
+  hospital: String,
+  city: String,
+  userId: mongoose.Schema.Types.ObjectId,
+  user: String,
+  group: String,
+  units: Number,
+  item: String,
+  status: {type: String, default: 'open'}
+});
+
+eventSchema.plugin(autoIncrement.plugin, { model: 'Event', field: 'extension', startAt: 100});
 
 /**
  * Hash the password for security.
@@ -72,4 +96,4 @@ userSchema.methods.gravatar = function(size) {
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = {User: mongoose.model('User', userSchema), Event: mongoose.model('Event', eventSchema)};

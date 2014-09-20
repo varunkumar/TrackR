@@ -32,10 +32,14 @@ var TweetManager = (function () {
             $("#txtHospital").val("Mallya Hospital, Vittal Mallya Road");
             $("#txtUnits").val("2");
             $("#txtCity").val("Bangalore");
-            $("#txtPhone").val("09449052884");
+            $("#txtPhone").val("9449052884");
         } else if (type == "ad") {
+            $("#txtItem").val("Two tickets avl for CSK vs Dolphins CLT20 22-Sep-2014");
+            $("#txtCity").val("Indira Nagar, Bangalore");
             $("#pnlItem").show();
         } if (type == "lost") {
+            $("#txtItem").val("Black labrador missing from 19-Sep-2014");
+            $("#txtCity").val("Koramangala, Bangalore");
             $("#pnlItem").show();
         }
         constructTweet();
@@ -44,6 +48,7 @@ var TweetManager = (function () {
     function constructTweet() {
         var type = $("#lstType option:selected").val();
         var tweet = "";
+        var virtualNumber = '09066021631 Ext:***';
 
         if (type == "blood") {
             var units = Number($("#txtUnits").val());
@@ -55,13 +60,27 @@ var TweetManager = (function () {
             tweet += "#" + $("#txtCity").val() + " ";
             tweet += " Need " + (units == 1 ? '' + group + ' ' : '' + units + ' units of ' + group + ' ');
             tweet += "#Blood @ " + hospital + " ";
-            tweet += "Call: " + user + " " + phone;
+            tweet += "Call: " + user + " " + virtualNumber;
         } else if (type == "ad") {
-            
+            var item = $("#txtItem").val();
+            var city = $("#txtCity").val();
+            var user = $("#txtUser").text();
+            var phone = $("#txtPhone").val();
+
+            tweet += "#Sale ";
+            tweet += item + " Pickup: " + city + " ";
+            tweet += "Call: " + user + " " + virtualNumber;
         } if (type == "lost") {
-            
+            var item = $("#txtItem").val();
+            var city = $("#txtCity").val();
+            var user = $("#txtUser").text();
+            var phone = $("#txtPhone").val();
+
+            tweet += "#Lost ";
+            tweet += item + " Last seen @ " + city + " ";
+            tweet += "Call: " + user + " " + virtualNumber;
         }
-        tweet += " #test";
+        //tweet += " #test";
 
         $("#txtTweet").val(tweet);
         $("#lblTweet").html("This new Tweet (" + tweet.length + " chars) will be posted on your Twitter profile.");

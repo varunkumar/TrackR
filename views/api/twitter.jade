@@ -13,19 +13,20 @@ block content
     form(role='form', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
+        input.form-control(type='text', name='user', value='#{user.profile.name || user.email || user.id}') 
         p.help Type
-        select.form-control(style='width: 200px', id='lstType')
+        select.form-control(style='width: 200px', id='lstType', name='type')
           option(value='blood') Blood requirements
           option(value='ad') Buy / Sell
           option(value='lost') Lost & Found
         div.row
           div.col-md-6(id='pnlHospital')
             p.help-block(id='lblHospital') Hospital
-            input.form-control(type='text', id='txtHospital') 
+            input.form-control(type='text', id='txtHospital', name='hospital') 
             div.row
               div.col-md-4
                 p.help-block Blood Group
-                select.form-control(id='lstGroup')
+                select.form-control(id='lstGroup', name='group')
                   option A1+
                   option A1-
                   option A1B+
@@ -41,20 +42,20 @@ block content
                   option O-
               div.col-md-3
                 p.help-block Units
-                input.form-control(type='text', id='txtUnits') 
+                input.form-control(type='text', id='txtUnits', name='units') 
               div.col-md-5
                 p.help-block Time
-                input.form-control(type='date', id='txtTime', value='2014-09-22') 
+                input.form-control(type='date', id='txtTime', value='2014-09-22', name='date') 
 
           div.col-md-6(id='pnlItem', style='display: none')
             p.help-block(id='lblItem') Details
-            input.form-control(type='text', id='txtItem')
+            input.form-control(type='text', id='txtItem', name='item')
           div.col-md-3
             p.help-block Location
-            input.form-control(type='text', id='txtCity') 
+            input.form-control(type='text', id='txtCity', name='city') 
           div.col-md-3
             p.help-block Phone
-            input.form-control(type='text', id='txtPhone') 
+            input.form-control(type='text', id='txtPhone', name='phone') 
         br
         br
         input.form-control(type='text', name='tweet', id='txtTweet', style='color: #A00', readonly)
@@ -64,5 +65,15 @@ block content
         |  Tweet
 
   br
+  h2
+    | Your tweets being tracked
+  for event in events
+    a(href='#{event.url}', target='_blank') #{event.url}
+    &nbsp;&nbsp;
+    a(href='/api/stoptracking/#{event.tweetId}') Close
+    br
+    | #{event.tweet}
+    br
+    hr
 
   script(src='/js/main.js', type='script/javascript')

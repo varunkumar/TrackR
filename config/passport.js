@@ -5,7 +5,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy; // Tumblr
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy; // Venmo, Foursquare
-var User = require('../models/User');
+var User = require('../models/User').User;
 var secrets = require('./secrets');
 
 passport.serializeUser(function(user, done) {

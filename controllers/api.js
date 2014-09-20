@@ -1,5 +1,5 @@
 var secrets = require('../config/secrets');
-var User = require('../models/User');
+var User = require('../models/User').User, Event = require('../models/User').Event;
 var querystring = require('querystring');
 var validator = require('validator');
 var async = require('async');
@@ -279,11 +279,36 @@ exports.getTwitter = function(req, res, next) {
       tweets: reply.statuses
     });
   });*/
-  
-  res.render('api/twitter', {
+  Event.find({userId: req.user._id, status: 'open'}, function(err, results) {
+    res.render('api/twitter', {
       title: 'Post your tweet',
-      tweets: []
+      events: results
     });
+  });
+};
+
+exports.stopTracking = function(req, res, next) {
+  var tweetId = req.params.tweetId;
+  Event.update({userId: req.user._id, status: 'open', tweetId: tweetId}, {$set: {status: 'closed'}}, function(err, e) {
+    req.flash('success', { msg: 'Your tweet has expired and the virtual number has been deactivated.'});
+    res.redirect('/api/twitter');
+  });
+}
+
+exports.callForward = function(req, res) {
+  console.log("Virtual Number: " + req.query.virtualnumber);
+  console.log("Caller Number: " + req.query.callernumber);
+  console.log("Extension: " + req.query.extension);
+
+  Event.findOne({status: 'open', extension: Number(req.query.extension)}, function(err, e) {
+    if (err || e == null) {
+      res.writeHead(200, {'Content-Type': 'application/xml'});
+      res.end('<response><status>failure</status></response>');  
+    } else {
+      res.writeHead(200, {'Content-Type': 'application/xml'});
+      res.end('<response><status>success</status><mapped_number>' + e.phone + '</mapped_number></response>');
+    }
+  });
 };
 
 /**
@@ -308,9 +333,80 @@ exports.postTwitter = function(req, res, next) {
     access_token: token.accessToken,
     access_token_secret: token.tokenSecret
   });
-  T.post('statuses/update', { status: req.body.tweet }, function(err, data, response) {
-    req.flash('success', { msg: 'Tweet has been posted.'});
-    res.redirect('/api/twitter');
+
+
+  Event.nextCount(function(err, count) {
+    var type = req.body.type;
+    var tweet = "";
+    var virtualNumber = '09066021631 Ext:' + count;
+    var e = new Event();
+
+    if (type == "blood") {
+        var units = Number(req.body.units);
+        var group = req.body.group;
+        var hospital = req.body.units;
+        var user = req.body.user;
+        var phone = req.body.phone;
+        var city = req.body.city;
+
+        e.type = type;
+        e.units = units;
+        e.group = group;
+        e.hospital = hospital;
+        e.user = user;
+        e.phone = phone;
+        e.city = city;
+
+        tweet += "#" + city + " ";
+        tweet += " Need " + (units == 1 ? '' + group + ' ' : '' + units + ' units of ' + group + ' ');
+        tweet += "#Blood @ " + hospital + " ";
+        tweet += "Call: " + user + " " + virtualNumber;
+    } else if (type == "ad") {
+        var item = req.body.item;
+        var city = req.body.city;
+        var user = req.body.user;
+        var phone = req.body.phone;
+
+        e.type = type;
+        e.item = item;
+        e.user = user;
+        e.phone = phone;
+        e.city = city;
+
+        tweet += "#Sale ";
+        tweet += item + " Pickup: " + city + " ";
+        tweet += "Call: " + user + " " + virtualNumber;
+    } if (type == "lost") {
+        var item = req.body.item;
+        var city = req.body.city;
+        var user = req.body.user;
+        var phone = req.body.phone;
+
+        e.type = type;
+        e.item = item;
+        e.user = user;
+        e.phone = phone;
+        e.city = city;
+
+        tweet += "#Lost ";
+        tweet += item + " Last seen @ " + city + " ";
+        tweet += "Call: " + user + " " + virtualNumber;
+    }
+
+    e.tweet = tweet;
+    e.userId = req.user._id;
+
+    T.post('statuses/update', { status: tweet }, function(err, data, response) {
+      console.log("Tweet id: " + data.id_str + data.user.screen_name);
+
+      e.tweetId = data.id_str;
+      e.url = 'http://twitter.com/' + data.user.screen_name + '/statuses/' + e.tweetId;
+
+      e.save(function(err) { 
+        req.flash('success', { msg: 'Tweet has been posted.'});
+        res.redirect('/api/twitter');
+      });
+    });
   });
 };
 
@@ -625,12 +721,4 @@ exports.getYahoo = function(req, res) {
       condition: condition
     });
   });
-};
-
-exports.callForward = function(req, res) {
-  console.log("Virtual Number: " + req.query.virtualnumber);
-  console.log("Caller Number: " + req.query.callernumber);
-  console.log("Extension: " + req.query.extension);
-  res.writeHead(200, {'Content-Type': 'application/xml'});
-  res.end('\<response><status>success</status><mapped_number>9449052884</mapped_number></response>');
 };
