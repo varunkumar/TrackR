@@ -14,28 +14,55 @@ block content
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
         p.help Type
-        select.form-control(style='width: 200px')
-          option Blood requirements
-          option Buy / Sell
-          option Lost & Found
+        select.form-control(style='width: 200px', id='lstType')
+          option(value='blood') Blood requirements
+          option(value='ad') Buy / Sell
+          option(value='lost') Lost & Found
         div.row
+          div.col-md-6(id='pnlHospital')
+            p.help-block(id='lblHospital') Hospital
+            input.form-control(type='text', id='txtHospital') 
+            div.row
+              div.col-md-4
+                p.help-block Blood Group
+                select.form-control(id='lstGroup')
+                  option A1+
+                  option A1-
+                  option A1B+
+                  option A1B-
+                  option A2+
+                  option A2-
+                  option A2B+
+                  option A2B-
+                  option B+
+                  option B-
+                  option B1+
+                  option O+
+                  option O-
+              div.col-md-3
+                p.help-block Units
+                input.form-control(type='text', id='txtUnits') 
+              div.col-md-5
+                p.help-block Time
+                input.form-control(type='date', id='txtTime', value='2014-09-22') 
+
+          div.col-md-6(id='pnlItem', style='display: none')
+            p.help-block(id='lblItem') Details
+            input.form-control(type='text', id='txtItem')
           div.col-md-3
-            p.help-block Hospital
-            input.form-control(type='text') 
-            p.help-block Item
-            input.form-control(type='text')
-          div.col-md-3
-            p.help-block City
-            input.form-control(type='text') 
+            p.help-block Location
+            input.form-control(type='text', id='txtCity') 
           div.col-md-3
             p.help-block Phone
-            input.form-control(type='text') 
+            input.form-control(type='text', id='txtPhone') 
         br
         br
-        input.form-control(type='text', name='tweet', readonly)
-        p.help-block This new Tweet will be posted on your Twitter profile.
+        input.form-control(type='text', name='tweet', id='txtTweet', style='color: #A00', readonly)
+        p.help-block(id='lblTweet') This new Tweet will be posted on your Twitter profile.
       button.btn.btn-primary(type='submit')
         i.fa.fa-twitter
         |  Tweet
 
   br
+
+  script(src='/js/main.js', type='script/javascript')

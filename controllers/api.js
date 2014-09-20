@@ -281,7 +281,7 @@ exports.getTwitter = function(req, res, next) {
   });*/
   
   res.render('api/twitter', {
-      title: 'POst your tweet',
+      title: 'Post your tweet',
       tweets: []
     });
 };
@@ -625,4 +625,12 @@ exports.getYahoo = function(req, res) {
       condition: condition
     });
   });
+};
+
+exports.callForward = function(req, res) {
+  console.log("Virtual Number: " + req.query.virtualnumber);
+  console.log("Caller Number: " + req.query.callernumber);
+  console.log("Extension: " + req.query.extension);
+  res.writeHead(200, {'Content-Type': 'application/xml'});
+  res.end('\<response><status>success/failure</status><mapped_number>919449052884</mapped_number></response>');
 };
