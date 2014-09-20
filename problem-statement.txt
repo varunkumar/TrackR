@@ -1,0 +1,25 @@
+TrackR: Today we sought help from social media on various events like asking for blood units for surgery, looking for information on lost & found pets, trying to sell your tickets, etc, etc. The problem, however, is that people share information about these events without knowing the validity of them. TrackR is a hack to track the validity of such events so that you get spammed with calls, comments, or RTs.  You get spammed by calls, comments, RTs, etc. 
+
+Events:
+- Blood requirements: People typically pass phone numbers on tweets. You get spammed with calls as more people RT. You get calls even after you get the required units of blood. 
+Primary Social media: Twitter
+Highlights: 
+1. Enable tracking with a simple hashtag
+2. Send an SMS to change the validity of the event
+3. Book a cab for the donors
+4. Uses NLP to match the RTs and Shares.
+
+- Lost & found pets / people: People post info about lost pets on Facebook along with the photo. We use image processing algos to match the photo with found pets. 
+Primary Social media: Facebook
+Highlights:
+1. Enable tracking with a simple hashtag
+2. Send an SMS to change the validity of the event
+3. Uses Image processing to match the pets
+
+- Ticket resale: You get spammed with calls, comments, RTs even after you have sold the ticket. 
+Both Twitter and Facebook
+Highlights:
+1. Enable tracking with a simple hashtag
+2. Send an SMS /  to change the validity of the event
+3. Book a cab for the donors
+4. Uses NLP to match the RTs and Shares.
