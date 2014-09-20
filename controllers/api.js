@@ -18,6 +18,34 @@ var clockwork = require('clockwork')({key: secrets.clockwork.apiKey});
 var ig = require('instagram-node').instagram();
 var Y = require('yui/yql');
 var _ = require('lodash');
+var natural = require('natural'), typeClassifier = new natural.BayesClassifier();;
+
+function trainClassifiers() {
+  typeClassifier.addDocument("#Bangalore  Need 2 units of A1+ #Blood @ Mallya Hospital, Vittal Mallya Road Call: ArunKumar Nagarajan  09066021631 Ext:***",'blood');
+  typeClassifier.addDocument("#Chennai  Need 2 units of O+ #Blood @ Mallya Hospital, Vittal Mallya Road Call:  09066021631 Ext:***",'blood');
+  typeClassifier.addDocument("#Pune Need 2 units of Blood @ hospital, call: kumar 09066021",'blood');
+  typeClassifier.addDocument("Blood urgent call", 'blood');
+  typeClassifier.addDocument("Bleeding Blood",'blood');
+  typeClassifier.addDocument("#Blood is the ultimate",'blood');
+
+  typeClassifier.addDocument("#Sale Two tickets avl for CSK vs Dolphins CLT20 22-Sep-2014 Pickup: Indira Nagar, Bangalore Call: ArunKumar Nagarajan  09066021631 Ext:***",'ad');
+  typeClassifier.addDocument("#Sale 2 Jsfoo tickets avl for sale  Pickup: chennai Call: 09066021631 Ext:***",'ad');
+  typeClassifier.addDocument("Sale urgent call", "ad");
+  typeClassifier.addDocument("#Pune Sale 2 tickets for hackfest call #urgent",'ad');
+  typeClassifier.addDocument("Buy tickets at 10% discount call #urgent",'ad');
+  typeClassifier.addDocument("Buy groceries at fabmart call",'ad');
+
+  typeClassifier.addDocument("#Lost Black labrador missing from 19-Sep-2014 Last seen @ Koramangala, Bangalore Call: ArunKumar Nagarajan  09066021631 Ext:**",'lost');
+  typeClassifier.addDocument("#Lost ball point pen since monday Last seen @ chennai Call: Reynold  09066021631 Ext:***",'lost');
+  typeClassifier.addDocument("HP dark pencil #lost since tuesday Last used @ delhi Call: HP  Ext:***",'lost');
+  typeClassifier.addDocument("Lost urgent please call",'lost');
+  typeClassifier.addDocument("found labrador at MG Road",'lost');
+  typeClassifier.addDocument("Found ID card at L8",'lost');
+
+  typeClassifier.train();
+}
+
+trainClassifiers();
 
 /**
  * GET /api
@@ -317,10 +345,56 @@ exports.searchEvent = function(req, res, next) {
 
   Event.findOne({tweetId: tweetId}, function(err, e) {
     if (err || e == null) {
-      // Tweet has not been tracked. Match it with other tracked tweets
+      // Tweet has not been tracked. DO NLP to match it with other tracked tweets
+      var classifications = typeClassifier.getClassifications(tweet), type;
+      if (classifications[0] && classifications[1] && classifications[2] && classifications[0].value == classifications[1].value && classifications[1].value == classifications[2].value) {
+        type = null;
+      } else if (classifications[0]) {
+        type = classifications[0].label;
+      }
+
+      
+      if (type == 'blood' || type == 'ad' || type == 'lost') {
+        // Compare with similar tweets that we are tracking
+        Event.find({type: type}, function(err, results) {
+          if (err || results == null || results.length == 0) {
+            // Relevant tweet. Not being tracked.
+            console.log("Path-1 - " + tweetId);
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({matchMethod: "fuzzy", data: null}));
+          } else {
+            var maxDistance = 0, similarTweet;
+            for (var i = 0; i < results.length; i++) {
+              var distance = natural.DiceCoefficient(tweet, results[i].tweet);
+              if (distance > maxDistance) {
+                maxDistance = distance;
+                similarTweet = results[i];
+              }
+            }
+
+            if (maxDistance > 0.8) {
+              // Relevant and found a similar tweet
+              console.log("Path-2 - " + tweetId);
+              res.writeHead(200, {'Content-Type': 'application/json'});
+              res.end(JSON.stringify({matchMethod: 'fuzzy', data: similarTweet}));
+            } else {
+              // Relevant but not found a similar tweet. Not being tracked.
+              console.log("Path-3 - " + tweetId); 
+              res.writeHead(200, {'Content-Type': 'application/json'});
+              res.end(JSON.stringify({matchMethod: "fuzzy", data: null}));
+            }
+          }
+        });
+      } else {
+        // Not relevant. Do nothing
+        console.log("Path-4 - " + tweetId);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end('null');
+      }
     } else {
+      console.log("Path-5 - " + tweetId);
       res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(JSON.stringify(e));
+      res.end(JSON.stringify({matchMethod: 'tweetId', data: e}));
     }
   });
 };
