@@ -65,15 +65,17 @@ block content
         |  Tweet
 
   br
-  h2
-    | Your tweets being tracked
-  for event in events
-    a(href='#{event.url}', target='_blank') #{event.url}
-    &nbsp;&nbsp;
-    a(href='/api/stoptracking/#{event.tweetId}') Close
-    br
-    | #{event.tweet}
-    br
-    hr
-
+  if events && events.length > 0
+    h2
+      | Your tweets being tracked
+    for event in events
+      a(href='#{event.url}', target='_blank') #{event.url}
+      &nbsp;&nbsp;
+      a(href='/api/stoptracking/#{event.tweetId}') Close
+      br
+      | #{event.tweet}
+      br
+      hr
+  else
+    | None of your tweets are being tracked
   script(src='/js/main.js', type='script/javascript')
