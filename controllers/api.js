@@ -361,7 +361,7 @@ exports.searchEvent = function(req, res, next) {
             // Relevant tweet. Not being tracked.
             console.log("Path-1 - " + tweetId);
             res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({matchMethod: "fuzzy", data: null}));
+            res.end(JSON.stringify({matchMethod: "fuzzy", matchType: type, data: null}));
           } else {
             var maxDistance = 0, similarTweet;
             for (var i = 0; i < results.length; i++) {
@@ -381,7 +381,7 @@ exports.searchEvent = function(req, res, next) {
               // Relevant but not found a similar tweet. Not being tracked.
               console.log("Path-3 - " + tweetId); 
               res.writeHead(200, {'Content-Type': 'application/json'});
-              res.end(JSON.stringify({matchMethod: "fuzzy", data: null}));
+              res.end(JSON.stringify({matchMethod: "fuzzy", matchType: type, data: null}));
             }
           }
         });
