@@ -28,12 +28,12 @@ function trainClassifiers() {
   typeClassifier.addDocument("Bleeding Blood",'blood');
   typeClassifier.addDocument("#Blood",'blood');
 
-  typeClassifier.addDocument("#Sale tickets",'sale');
-  typeClassifier.addDocument("Sale #tickets",'sale');
-  typeClassifier.addDocument("Sale urgent call", "sale");
-  typeClassifier.addDocument("Sale tickets hackfest #urgent",'sale');
-  typeClassifier.addDocument("Buy tickets discount #urgent",'sale');
-  typeClassifier.addDocument("Buy groceries",'sale');
+  typeClassifier.addDocument("#Sale tickets",'ad');
+  typeClassifier.addDocument("Sale #tickets",'ad');
+  typeClassifier.addDocument("Sale urgent call", "ad");
+  typeClassifier.addDocument("Sale tickets hackfest #urgent",'ad');
+  typeClassifier.addDocument("Buy tickets discount #urgent",'ad');
+  typeClassifier.addDocument("Buy groceries",'ad');
 
   typeClassifier.addDocument("#Lost missing",'lost');
   typeClassifier.addDocument("#Lost ball point pen",'lost');
