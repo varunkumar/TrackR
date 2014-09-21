@@ -21,26 +21,26 @@ var _ = require('lodash');
 var natural = require('natural'), typeClassifier = new natural.BayesClassifier();;
 
 function trainClassifiers() {
-  typeClassifier.addDocument("#Bangalore  Need 2 units of A1+ #Blood @ Mallya Hospital, Vittal Mallya Road Call: ArunKumar Nagarajan  09066021631 Ext:***",'blood');
-  typeClassifier.addDocument("#Chennai  Need 2 units of O+ #Blood @ Mallya Hospital, Vittal Mallya Road Call:  09066021631 Ext:***",'blood');
-  typeClassifier.addDocument("#Pune Need 2 units of Blood @ hospital, call: kumar 09066021",'blood');
-  typeClassifier.addDocument("Blood urgent call", 'blood');
+  typeClassifier.addDocument("Need units A1+ #Blood Hospital",'blood');
+  typeClassifier.addDocument("Need units O+ #Blood Hospital",'blood');
+  typeClassifier.addDocument("Need units Blood hospital",'blood');
+  typeClassifier.addDocument("Blood urgent", 'blood');
   typeClassifier.addDocument("Bleeding Blood",'blood');
-  typeClassifier.addDocument("#Blood is the ultimate",'blood');
+  typeClassifier.addDocument("#Blood",'blood');
 
-  typeClassifier.addDocument("#Sale Two tickets avl for CSK vs Dolphins CLT20 22-Sep-2014 Pickup: Indira Nagar, Bangalore Call: ArunKumar Nagarajan  09066021631 Ext:***",'ad');
-  typeClassifier.addDocument("#Sale 2 Jsfoo tickets avl for sale  Pickup: chennai Call: 09066021631 Ext:***",'ad');
-  typeClassifier.addDocument("Sale urgent call", "ad");
-  typeClassifier.addDocument("#Pune Sale 2 tickets for hackfest call #urgent",'ad');
-  typeClassifier.addDocument("Buy tickets at 10% discount call #urgent",'ad');
-  typeClassifier.addDocument("Buy groceries at fabmart call",'ad');
+  typeClassifier.addDocument("#Sale tickets",'sale');
+  typeClassifier.addDocument("Sale #tickets",'sale');
+  typeClassifier.addDocument("Sale urgent call", "sale");
+  typeClassifier.addDocument("Sale tickets hackfest #urgent",'sale');
+  typeClassifier.addDocument("Buy tickets discount #urgent",'sale');
+  typeClassifier.addDocument("Buy groceries",'sale');
 
-  typeClassifier.addDocument("#Lost Black labrador missing from 19-Sep-2014 Last seen @ Koramangala, Bangalore Call: ArunKumar Nagarajan  09066021631 Ext:**",'lost');
-  typeClassifier.addDocument("#Lost ball point pen since monday Last seen @ chennai Call: Reynold  09066021631 Ext:***",'lost');
-  typeClassifier.addDocument("HP dark pencil #lost since tuesday Last used @ delhi Call: HP  Ext:***",'lost');
-  typeClassifier.addDocument("Lost urgent please call",'lost');
-  typeClassifier.addDocument("found labrador at MG Road",'lost');
-  typeClassifier.addDocument("Found ID card at L8",'lost');
+  typeClassifier.addDocument("#Lost missing",'lost');
+  typeClassifier.addDocument("#Lost ball point pen",'lost');
+  typeClassifier.addDocument("#lost urgent track",'lost');
+  typeClassifier.addDocument("Lost urgent",'lost');
+  typeClassifier.addDocument("found claim",'lost');
+  typeClassifier.addDocument("#Found",'lost');
 
   typeClassifier.train();
 }
