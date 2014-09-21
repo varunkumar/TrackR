@@ -1,27 +1,34 @@
 extends layout
 
 block content
-  h1 Hackathon Starter
-  p.lead A boilerplate for Node.js web applications.
+  h1 TrackR
+  p.lead A smart way to reduce spams in social media.
   hr
   .row
     .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+      h2 Blood Requirements
+      .row
+        .col-sm-3
+          img(src='/img/blood-128.png')
+        .col-sm-9
+          p Post info about your blood requirements without getting spammed. Your number will never be exposed online. You will get a virtual number to connect with the donors.
+          p
+            a.btn.btn-default(href='/api/twitter', role='button') Get Started »
     .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+      h2 Buy / Sell
+      .row
+        .col-sm-3
+          img(src='/img/ad-256.png', style='width: 128px')
+        .col-sm-9
+          p Buy / sell products easily on twitter without getting spammed. Your tweet will expire about the item has sold / bought.
+          p
+            a.btn.btn-default(href='/api/twitter', role='button') Get Started »
     .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+      h2 Lost & Found
+      .row
+        .col-sm-3
+          img(src='/img/lost-256.png', style='width: 128px')
+        .col-sm-9
+          p Post info about your missing pet without worrying out giving out your personal information. TrackR will provide you a virtual number to connect with animal welfare groups.
+          p
+            a.btn.btn-default(href='/api/twitter', role='button') Get Started »
