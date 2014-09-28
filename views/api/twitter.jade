@@ -13,7 +13,7 @@ block content
     form(role='form', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
-        input.form-control(type='text', name='user', value='#{user.profile.name || user.email || user.id}') 
+        input.form-control(type='hidden', name='user', value='#{user.profile.name || user.email || user.id}') 
         p.help Type
         select.form-control(style='width: 200px', id='lstType', name='type')
           option(value='blood') Blood requirements
