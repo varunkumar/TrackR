@@ -38,7 +38,7 @@
     "lusca": "^1.0.1",
     "method-override": "^3.0.0",
     "mime": "^2.4.4",
-    "mongoose": "^5.5.14",
+    "mongoose": "^5.7.5",
     "mongoose-auto-increment": "3.0.8",
     "morgan": "^1.9.1",
     "natural": "0.1.28",
