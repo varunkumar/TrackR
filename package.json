@@ -67,7 +67,7 @@
     "tunnel-agent": "^0.6.0",
     "twilio": "^3.31.1",
     "twit": "^1.1.18",
-    "validator": "^11.0.0",
+    "validator": "^13.7.0",
     "xmldom": "@xmldom/xmldom@0.7.3",
     "yargs-parser": "^13.1.2",
     "yui": "^3.18.1"
