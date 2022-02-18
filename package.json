@@ -35,7 +35,7 @@
     "jade": "^0.29.0",
     "lastfm": "^0.9.0",
     "less": "^3.9.0",
-    "lodash": "^4.17.21",
+    "lodash": "~4.17.12",
     "lusca": "^1.0.1",
     "method-override": "^3.0.0",
     "mime": "^2.4.4",
@@ -83,9 +83,10 @@
     "multiline": "^0.3.4",
     "nodemailer": "~6.6.1",
     "nth-check": "~2.0.1",
+    "postcss": "~8.2.13",
     "supertest": "^4.0.2",
     "uglify-js": "^3.13.6",
-    "underscore": "^1.13.1",
+    "underscore": "~1.12.1",
     "underscore.string": "^3.3.5",
     "xmldom": "@xmldom/xmldom@0.7.3"
   }
