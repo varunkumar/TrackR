@@ -60,6 +60,7 @@
     "passport-oauth": "^1.0.0",
     "passport-oauth2": "~1.6.1",
     "passport-twitter": "^0.1.5",
+    "qs": "~6.0.4",
     "request": "^2.88.0",
     "shelljs": "^0.8.5",
     "stripe": "^2.8.0",
